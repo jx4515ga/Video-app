@@ -1,0 +1,12 @@
+body {
+    background-color: rgb(27, 136, 172);
+}
+.navigation {
+    margin: 20px;
+}
+
+.navigation > a{
+    color: rgb(243, 209, 13);
+    padding-right: 30px;
+
+}
