@@ -11,10 +11,8 @@ def home(request):
     app_name = 'Favorite Music Videos' # this is my music category
     return render(request, 'video_collection/home.html', {'app_name': app_name})
 
-
+# Adding video to the app and post in the app 
 def add(request):
-
-
     if request.method == "POST":
         new_video_form = VideoForm(request.POST)
         if new_video_form.is_valid():
@@ -32,11 +30,11 @@ def add(request):
         messages.warning(request, 'Please check the data entered.')
         return render(request, 'video_collection/add.html', {'new_video_form': new_video_form})
 
-            
-
     new_video_form = VideoForm() # adding a new video
     return render(request, 'video_collection/add.html', {'new_video_form': new_video_form}) 
 
+
+# Videos will be addedto the list after added
 def video_list(request):
     search_form = SearchForm(request.GET)
 

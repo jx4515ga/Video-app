@@ -3,15 +3,31 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import query_utils
 
+#Class to add name, url, and notes, with a length 
 class Video(models.Model):
     name = models.CharField(max_length=200)
     url = models.CharField(max_length=400)
     notes = models.TextField(blank=True, null=True)
     video_id = models.CharField(max_length=40, unique=True)
 
+
+    # Saving the video into the app and displaying in the video list
     def save(self, *args, **kwargs):
         # extract the video id from youtube url
         url_components = parse.urlparse(self.url)
+
+        # Validation for the link "https"
+        if url_components.scheme != 'https':
+            raise ValidationError(f'Not a Youtube URL {self.url}')
+        
+         # Validation for the link "www.youtube.com"
+        if url_components.netloc != 'www.youtube.com':
+            raise ValidationError(f'Not a Youtube URL {self.url}')
+
+         # Validation for the link "/watch"
+        if url_components.path != '/watch':
+            raise ValidationError(f'Not a Youtube URL {self.url}')
+
         query_string = url_components.query
         if not query_string:
             raise ValidationError(F'Invalid Youtube URL{self.url}')
